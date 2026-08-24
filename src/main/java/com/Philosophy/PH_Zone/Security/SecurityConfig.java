@@ -64,9 +64,10 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        // ✅ استخدمي Patterns بدلاً من Origins محددة
+        // ✅ إضافة دومينات Railway المسموح لها مع الحفاظ على Vercel و Localhost
         configuration.setAllowedOriginPatterns(List.of(
                 "https://*.vercel.app",
+                "https://*.up.railway.app", // ← يغطي أي دومين فرونت إند مرفوع على Railway
                 "http://localhost:5173",
                 "http://localhost:3000"
         ));
@@ -74,7 +75,7 @@ public class SecurityConfig {
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setExposedHeaders(Arrays.asList("Authorization", "Content-Type"));
-        configuration.setAllowCredentials(false);  // ← ضروري يكون false مع Patterns!
+        configuration.setAllowCredentials(false);  // ضروري يفضل false مع setAllowedOriginPatterns
         configuration.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
