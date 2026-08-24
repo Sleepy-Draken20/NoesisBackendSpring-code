@@ -64,9 +64,9 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        // ✅ حل المشكلة: AllowedOrigins بدل Patterns
-        configuration.setAllowedOrigins(List.of(
-                "https://noesis-pnqta551i-draken1.vercel.app",
+        // ✅ استخدمي Patterns بدلاً من Origins محددة
+        configuration.setAllowedOriginPatterns(List.of(
+                "https://*.vercel.app",
                 "http://localhost:5173",
                 "http://localhost:3000"
         ));
@@ -74,14 +74,13 @@ public class SecurityConfig {
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setExposedHeaders(Arrays.asList("Authorization", "Content-Type"));
-        configuration.setAllowCredentials(true);
+        configuration.setAllowCredentials(false);  // ← ضروري يكون false مع Patterns!
         configuration.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
-
     @Value("${app.admin.username:admin}")
     private String adminUsername;
 
