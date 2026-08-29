@@ -9,7 +9,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-@CrossOrigin(origins = "https://noesis-pnqta551i-draken1.vercel.app")
+
 @RestController
 @RequestMapping("/api/v1/quotes")
 public class QuoteController {

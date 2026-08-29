@@ -64,18 +64,17 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        // ✅ إضافة دومينات Railway المسموح لها مع الحفاظ على Vercel و Localhost
+        // ✅ دمج فتح كافة البورتات المحلية مع دومينات Vercel و Railway
         configuration.setAllowedOriginPatterns(List.of(
                 "https://*.vercel.app",
-                "https://*.up.railway.app", // ← يغطي أي دومين فرونت إند مرفوع على Railway
-                "http://localhost:5173",
-                "http://localhost:3000"
+                "https://*.up.railway.app",
+                "http://localhost:*" // 👈 يسمح بأي بورت محلي (5173, 5174, 3000, الخ)
         ));
 
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setExposedHeaders(Arrays.asList("Authorization", "Content-Type"));
-        configuration.setAllowCredentials(false);  // ضروري يفضل false مع setAllowedOriginPatterns
+        configuration.setAllowCredentials(false);
         configuration.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
